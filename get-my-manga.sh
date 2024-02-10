@@ -21,14 +21,16 @@ response=$(curl -X GET "${base_url}/manga?title=${manga_title}" \
                 -w "%{http_code}")
 } || { #catch
      echo "Ошибка! Попробуйте не вводить пробелы =)"
-     exit 1
+     exit -1
 }
 
 if [ $response = '200' ]; then
      jq . $result_file
+	 exit 0 
 else
      echo "Упс! Что-то пошло не так. Сервер ответил с кодом $response."
      echo "Более подробную информацию можно посмотреть в файлах каталога $base_folder"
+	 exit -2
 fi
 
 
